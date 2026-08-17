@@ -35,11 +35,8 @@
 ## 安装
 
 ```sh
-# 方式一：GitHub release tarball
+# 从 GitHub release 安装（tarball）
 dsh plugin --profile web add https://github.com/mastereal/dsh-sidebar-enhancement-search/archive/refs/tags/v1.0.1.tar.gz
-
-# 方式二：npm（发布后可用）
-dsh plugin --profile web add dsh-sidebar-enhancement-search
 ```
 
 装完重启 `dsh web`，浏览器**硬刷新（Ctrl+Shift+R）**，并**关闭所有旧 DSH 窗口/标签页**（旧实例会残留旧代码，造成界面重复）。
