@@ -1,12 +1,12 @@
 {
-  "name": "sidebar-enhancement-search",
-  "version": "1.0.0",
+  "name": "dsh-sidebar-enhancement-search",
+  "version": "1.0.1",
   "description": "Codex-style file search INSIDE the built-in dsh-better-sidebar Explorer tab (filter box under the workspace folder name), plus per-file-type icons/badges in the explorer tree and editor tabs",
   "license": "MIT",
   "type": "module",
   "repository": {
     "type": "git",
-    "url": "https://github.com/mastereal/sidebar-enhancement-search"
+    "url": "https://github.com/mastereal/dsh-sidebar-enhancement-search"
   },
   "publishConfig": {
     "access": "public"

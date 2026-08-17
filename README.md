@@ -1,88 +1,73 @@
-# sidebar-enhancement-search
+# dsh-sidebar-enhancement-search
 
-Codex-style file **search inside the built-in Explorer tab** of
-[dsh-better-sidebar](https://github.com/omdsh-dev/DSH-better-sidebar), plus
-**per-file-type icons/badges** in the explorer tree and the editor tab bar.
+在 [dsh-better-sidebar](https://github.com/omdsh-dev/DSH-better-sidebar) 的**内置资源管理器标签页**里直接搜索文件（Codex 式子序列模糊匹配），并给资源管理器树和编辑器标签页加上**按文件类型区分的彩色图标徽章**。不需要新增任何标签页。
 
-No extra tabs. The filter box lives right below the workspace folder name in
-the built-in Explorer; while you type, the tree is hidden and matching files
-render in place with Codex-style subsequence matching (characters in order;
-contiguous and boundary hits score higher; basename dominates path).
+> **English**: Codex-style file search inside the built-in Explorer tab of dsh-better-sidebar, plus per-file-type icons/badges in the explorer tree and editor tabs. No extra tabs.
 
-## Features
+---
 
-- **Inline filter box** inside the built-in Explorer tab (no new tab)
-- **Codex-style fuzzy matching** — `bxmd` finds `博客.md`, `blx-2.md` style hits
-- **Per-file-type badges** in the explorer tree and editor tabs:
-  TXT / DOC / XLS / PPT / PDF / IMG / ZIP / PY / JS / CFG / SH / C / WEB —
-  Markdown files keep the built-in `#` icon by design
-- **Open in folder** from the search results (hover the row)
-- Self-healing: badges are applied via CSS pseudo-elements that React
-  re-renders cannot remove, with a 2s heartbeat fallback
+## ⚠️ 免责声明（请先读）
 
-## Requirements
+**本插件是 vibecoding（与 AI 协作、边聊边写）出来的作品，作者纯自用，没有经过大规模测试，也没有在其他人的环境里验证过。**
 
-- DeepSeek Harness (DSH) web GUI
-- [dsh-better-sidebar](https://github.com/omdsh-dev/DSH-better-sidebar) ^0.12
-  (any version that keeps the `explorerHeader`/`explorerRow`/`paneTab` class
-  suffixes)
+- 它直接操作 better-sidebar 的 DOM（CSS 类名后缀、注入样式表、MutationObserver），**better-sidebar 升级后可能失效**；
+- 安装与使用**有风险**：可能出现徽章不显示、布局异常等问题，请自行评估后再装；
+- 作者不对任何数据丢失、功能异常或使用后果负责；
+- 如果遇到问题，欢迎提 issue，但**不保证修复时间**。
 
-## Installation
+> **English**: This plugin was **vibecoded** (built collaboratively with AI). It is for **personal use**, not battle-tested, and touches better-sidebar's DOM directly — **install at your own risk**. No warranty of any kind.
 
-From the plugin market (once listed) or via CLI:
+---
+
+## 功能
+
+- **内嵌筛选框**：位于内置 Explorer 标签页「工作文件夹名」下方，输入即筛
+- **Codex 式子序列匹配**：字符按顺序命中即可（`bxmd` 能匹配到 `博客.md`），连续/分隔符边界命中加权，文件名命中优先于路径
+- **文件类型徽章**：资源管理器树与编辑器标签页按类型显示彩色徽章（TXT/DOC/XLS/PPT/PDF/IMG/ZIP/PY/JS/CFG/SH/C/WEB）；**md 文件按设计保留内置 `#` 图标**
+- **搜索结果可定位**：悬停行尾的文件夹图标可「在文件夹中显示」
+- **自愈机制**：徽章用 CSS 伪元素实现，React 重渲染清不掉；另有 2 秒心跳兜底，观察器失效也会自动恢复
+
+## 依赖
+
+- DeepSeek Harness（DSH）Web GUI
+- [dsh-better-sidebar](https://github.com/omdsh-dev/DSH-better-sidebar) ^0.12（依赖其 `explorerHeader`/`explorerRow`/`paneTab` 类名后缀）
+
+## 安装
 
 ```sh
-# tarball from a GitHub release
-dsh plugin --profile web add https://github.com/mastereal/sidebar-enhancement-search/archive/refs/tags/v1.0.0.tar.gz
+# 方式一：GitHub release tarball
+dsh plugin --profile web add https://github.com/mastereal/dsh-sidebar-enhancement-search/archive/refs/tags/v1.0.1.tar.gz
 
-# or from npm (when published)
-dsh plugin --profile web add sidebar-enhancement-search
+# 方式二：npm（发布后可用）
+dsh plugin --profile web add dsh-sidebar-enhancement-search
 ```
 
-Restart `dsh web` and hard-refresh the browser (Ctrl+Shift+R).
-Make sure to close older DSH tabs/windows so stale plugin instances do not
-duplicate the UI.
+装完重启 `dsh web`，浏览器**硬刷新（Ctrl+Shift+R）**，并**关闭所有旧 DSH 窗口/标签页**（旧实例会残留旧代码，造成界面重复）。
 
-## Usage
+## 使用
 
-1. Open the built-in **Explorer** tab in the sidebar.
-2. Click the filter box under the workspace folder name and type.
-3. Click a result to open it in the sidebar editor; hover → open in folder.
-4. File icons in the tree and on editor tabs show type badges (md keeps `#`).
+1. 打开侧边栏的**资源管理器**标签页
+2. 在「工作文件夹名」下方的筛选框输入关键词
+3. 点击结果在侧边栏编辑器打开；悬停行尾文件夹图标可定位到系统文件夹
+4. 资源管理器树和编辑器标签页的文件图标会显示类型徽章（md 保持 `#`）
 
-## Troubleshooting
+## 排障
 
-Console logs are prefixed `[sidebar-enhancement-search]`:
+控制台日志前缀 `[dsh-sidebar-enhancement-search]`：
 
-- `client loaded (v1.0.0)` — the browser bundle is running
-- `tab badges: editors=N matched=M badged=K` / `tree badges: rows=N badged=M`
-  — badge application counters
+- `client loaded (v1.0.1)` —— 浏览器端已加载
+- `tab badges: editors=N matched=M badged=K` / `tree badges: rows=N badged=M` —— 徽章应用计数
 
-If badges stay built-in, hard-refresh with all old DSH windows closed.
+徽章一直不显示时：关掉所有旧 DSH 窗口 → 硬刷新。仍不行请提 issue 并附上这两行日志。
 
-## How it works
+## 工作原理（简）
 
-The host serves `/sidebar-enhancement-search/index`, `/tree` and `/reveal`
-routes (index is cached 30s per workspace, ignores `.git`/`node_modules`/
-`.obsidian`/`.trash` and hidden dirs). The client augments the built-in
-Explorer via CSS-module class suffixes (`[class*="explorerHeader"]`), which
-survive hashed-class rebuilds, and renders badges with data attributes +
-CSS pseudo-elements so React reconciliation can never wipe them.
+宿主提供 `/dsh-sidebar-enhancement-search/index`（全量文件索引，忽略 `.git`/`node_modules`/`.obsidian`/`.trash` 与隐藏目录，按工作区缓存 30 秒）、`/tree`、`/reveal` 三个路由；客户端通过 CSS module 类名后缀（`[class*="explorerHeader"]`）定位内置 Explorer 并植入筛选框，徽章用 data 属性 + CSS 伪元素绘制，React 无法清除。
 
-## License
+## 许可
 
 MIT © 2026 mastereal
 
 ---
 
-## 中文说明
-
-**功能**：在 better-sidebar 内置的资源管理器标签页里直接搜索文件（Codex
-式子序列匹配，无需新标签页），并给资源管理器树和编辑器标签页加上按文件
-类型区分的彩色图标徽章（md 文件按设计保留内置 `#` 图标）；搜索结果行悬停
-可"在文件夹中显示"。
-
-**安装**：见上方 Installation（市场收录后也可在插件市场一键安装）。
-
-**日志**：浏览器控制台前缀 `[sidebar-enhancement-search]`，启动出现
-`client loaded (v1.0.0)` 即加载成功。
+*Vibecoded with DeepSeek Harness · 纯自用作品，谨慎安装*
