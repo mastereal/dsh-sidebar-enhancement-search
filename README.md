@@ -30,13 +30,13 @@
 ## 依赖
 
 - DeepSeek Harness（DSH）Web GUI
-- [dsh-better-sidebar](https://github.com/omdsh-dev/DSH-better-sidebar) ^0.12（依赖其 `explorerHeader`/`explorerRow`/`paneTab` 类名后缀）
+- [dsh-better-sidebar](https://github.com/omdsh-dev/DSH-better-sidebar) ^0.14（v1.0.2+ 已适配 0.14：挂载锚点改为 `editorTreeSearch`，Files 窗口归一化为 editor 形态）
 
 ## 安装
 
 ```sh
 # 从 GitHub release 安装（tarball）
-dsh plugin --profile web add https://github.com/mastereal/dsh-sidebar-enhancement-search/archive/refs/tags/v1.0.1.tar.gz
+dsh plugin --profile web add https://github.com/mastereal/dsh-sidebar-enhancement-search/archive/refs/tags/v1.0.4.tar.gz
 ```
 
 装完重启 `dsh web`，浏览器**硬刷新（Ctrl+Shift+R）**，并**关闭所有旧 DSH 窗口/标签页**（旧实例会残留旧代码，造成界面重复）。
@@ -52,14 +52,14 @@ dsh plugin --profile web add https://github.com/mastereal/dsh-sidebar-enhancemen
 
 控制台日志前缀 `[dsh-sidebar-enhancement-search]`：
 
-- `client loaded (v1.0.1)` —— 浏览器端已加载
+- `client loaded (v1.0.4)` —— 浏览器端已加载
 - `tab badges: editors=N matched=M badged=K` / `tree badges: rows=N badged=M` —— 徽章应用计数
 
 徽章一直不显示时：关掉所有旧 DSH 窗口 → 硬刷新。仍不行请提 issue 并附上这两行日志。
 
 ## 工作原理（简）
 
-宿主提供 `/dsh-sidebar-enhancement-search/index`（全量文件索引，忽略 `.git`/`node_modules`/`.obsidian`/`.trash` 与隐藏目录，按工作区缓存 30 秒）、`/tree`、`/reveal` 三个路由；客户端通过 CSS module 类名后缀（`[class*="explorerHeader"]`）定位内置 Explorer 并植入筛选框，徽章用 data 属性 + CSS 伪元素绘制，React 无法清除。
+宿主提供 `/dsh-sidebar-enhancement-search/index`（全量文件索引，忽略 `.git`/`node_modules`/`.obsidian`/`.trash` 与隐藏目录，按工作区缓存 30 秒）、`/tree`、`/reveal` 三个路由；客户端通过 CSS module 类名后缀（v1.0.2+ 用 `[class*="editorTreeSearch"]`，隐藏 0.14 自带的纯文本搜索行后植入筛选框）定位内置 Explorer，徽章用 data 属性 + CSS 伪元素绘制，React 无法清除。v1.0.4 起 reveal 会额外把资源管理器窗口激活到前台（模拟 Alt + SetForegroundWindow）。v1.0.3 起结果列表高度用 ResizeObserver 跟随树面板。
 
 ## 许可
 
