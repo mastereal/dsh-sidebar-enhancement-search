@@ -1,6 +1,6 @@
 {
   "name": "dsh-sidebar-enhancement-search",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "Codex-style file search INSIDE the built-in dsh-better-sidebar Explorer tab (filter box under the workspace folder name), plus per-file-type icons/badges in the explorer tree and editor tabs",
   "license": "MIT",
   "type": "module",
